@@ -4,6 +4,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,30 +46,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Box (
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(400.dp),
-    ) {
-        Text(
-            text = "Hello $name!",
-            color = Color.Blue,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .padding(4.dp)
-                .background(Color.Black)
-                .align(Alignment.TopStart),
-        )
-        Text(
-            text = "No please no\nI am not tasty!",
-            color = Color.Red,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .padding(4.dp)
-                .background(Color.Black)
-                .align(Alignment.BottomEnd),
-        )
-    }
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        contentDescription = null,
+        modifier = Modifier.background(Color.Black)
+    )
 }
 
 @Preview(showBackground = true)
