@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String) {
     LazyRow(modifier = Modifier.fillMaxSize()) {
-        items(count = 10) { i ->
+        items(count = 10) { _ ->
             Icon(
                 imageVector = Icons.Default.Done,
                 contentDescription = null,
