@@ -10,20 +10,27 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -44,34 +51,78 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                var count by remember {
-                    mutableIntStateOf(0)
+                var name by remember {
+                    mutableStateOf("")
                 }
+                var nameList by remember {
+                    mutableStateOf(listOf<String>())
+                }
+
                 Column(
                     modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    Text(
-                        text = count.toString(),
-                        fontSize = 24.sp,
-                    )
-                    Button(onClick = {
-                        count++
-                    }) {
-                        Text(text = "Click me: $count")
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        OutlinedTextField(
+                            value = name,
+                            onValueChange = { text ->
+                                name = text
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+
+                        Spacer(modifier = Modifier
+                            .width(16.dp)
+                        )
+
+                        Button(onClick = {
+                            if (name.isNotBlank()) {
+                                nameList += name
+                                name = ""
+                            }
+                        }) {
+                            Text(text = "Add")
+                        }
                     }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    NameList(
+                        nameList,
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.Black)
+                            .padding(10.dp),
+                    )
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    ComposeCourseTheme {
-
+fun NameList(
+    nameList: List<String>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn (modifier) {
+        items (nameList) { currentName ->
+            Text(
+                text = currentName,
+                color = Color.White,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+            Divider()
+        }
     }
 }
