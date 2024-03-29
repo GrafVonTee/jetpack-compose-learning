@@ -71,6 +71,9 @@ dependencies {
     // For AppWidgets support
     implementation("androidx.glance:glance-appwidget:1.0.0")
 
+    // For Material3 support
+    implementation("androidx.glance:glance-material3:1.0.0")
+
     // For Wear-Tiles support
     implementation("androidx.glance:glance-wear-tiles:1.0.0-alpha05")
 
