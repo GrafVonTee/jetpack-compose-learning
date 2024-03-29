@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
@@ -36,13 +37,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                Greeting("von Tee")
             }
         }
     }
@@ -50,11 +45,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Column {
-        for (i in 1..10) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(count = 10) { i ->
             Icon(
                 imageVector = Icons.Default.Done,
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp),
             )
         }
     }
