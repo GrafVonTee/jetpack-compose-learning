@@ -51,78 +51,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                var name by remember {
-                    mutableStateOf("")
-                }
-                var nameList by remember {
-                    mutableStateOf(listOf<String>())
-                }
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        OutlinedTextField(
-                            value = name,
-                            onValueChange = { text ->
-                                name = text
-                            },
-                            modifier = Modifier
-                                .weight(1f)
-                        )
-
-                        Spacer(modifier = Modifier
-                            .width(16.dp)
-                        )
-
-                        Button(onClick = {
-                            if (name.isNotBlank()) {
-                                nameList += name
-                                name = ""
-                            }
-                        }) {
-                            Text(text = "Add")
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    NameList(
-                        nameList,
-                        Modifier
-                            .fillMaxSize()
-                            .background(Color.Black)
-                            .padding(10.dp),
-                    )
-                }
             }
-        }
-    }
-}
-
-@Composable
-fun NameList(
-    nameList: List<String>,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn (modifier) {
-        items (nameList) { currentName ->
-            Text(
-                text = currentName,
-                color = Color.White,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            )
-            Divider()
         }
     }
 }
