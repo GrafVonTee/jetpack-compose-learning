@@ -19,11 +19,17 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,22 +44,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                Greeting("von Tee")
+                var count by remember {
+                    mutableIntStateOf(0)
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = count.toString(),
+                        fontSize = 24.sp,
+                    )
+                    Button(onClick = {
+                        count++
+                    }) {
+                        Text(text = "Click me: $count")
+                    }
+                }
             }
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    LazyRow(modifier = Modifier.fillMaxSize()) {
-        items(count = 10) { _ ->
-            Icon(
-                imageVector = Icons.Default.Done,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(100.dp),
-            )
         }
     }
 }
@@ -62,6 +72,6 @@ fun Greeting(name: String) {
 @Composable
 fun GreetingPreview() {
     ComposeCourseTheme {
-        Greeting("Maxim")
+
     }
 }
