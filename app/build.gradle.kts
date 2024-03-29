@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.composecourse"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -44,6 +44,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -63,4 +64,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // For Glance support
+    implementation("androidx.glance:glance:1.0.0")
+
+    // For AppWidgets support
+    implementation("androidx.glance:glance-appwidget:1.0.0")
+
+    // For Wear-Tiles support
+    implementation("androidx.glance:glance-wear-tiles:1.0.0-alpha05")
+
 }
