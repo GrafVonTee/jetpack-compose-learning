@@ -1,5 +1,6 @@
 package com.example.composecourse
 
+import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -47,13 +48,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composecourse.ui.theme.ComposeCourseTheme
@@ -63,35 +68,69 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                MyCanvas()
+                LinearProgressBar(0.3.toFloat(), 100)
             }
         }
     }
 }
 
 @Composable
-fun MyCanvas() {
-    Canvas(
+fun LinearProgressBar(
+    percentage: Float,
+    maxNumber: Int,
+    fontSize: TextUnit = 28.sp,
+    width: Dp = 100.dp,
+    height: Dp = 50.dp,
+    gradient1: List<Color> = listOf(Color.Cyan, Color.Blue, Color.Black),
+    gradient2: List<Color> = listOf(Color.Yellow, Color.Red, Color.Black),
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .padding(20.dp)
-            .size(300.dp),
-
+            .fillMaxWidth()
+            .padding(8.dp)
     ) {
-        val lineStart = Offset(0f, 0f)
-        val lineEnd = Offset(size.width, 0f)
-        val balanceValue: Float = 3.toFloat() / (3 + 5)
-        val progressBarSpace = Offset(1f, 0f)
-        val barWidth = 25.dp.toPx()
+        Text(
+            text = (percentage * maxNumber).toInt().toString(),
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold,
+        )
 
-        drawLine(
-            brush = Brush.linearGradient(
-                colors = listOf(Color.Blue, Color.Red),
-                start = lineStart + (lineEnd - lineStart) * balanceValue - progressBarSpace,
-                end = lineStart + (lineEnd - lineStart) * balanceValue + progressBarSpace,
-            ),
-            start = lineStart,
-            end = lineEnd,
-            strokeWidth = barWidth,
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Canvas(
+            modifier = Modifier
+                .size(width = width, height = height)
+        ) {
+            val breakOffset: Offset = Offset(size.width * percentage, 0f)
+
+            drawRoundRect(
+                Brush.linearGradient(
+                    colors = gradient1,
+                    start = Offset.Zero,
+                    end = Offset.Infinite,
+                ),
+                topLeft = Offset.Zero,
+                size = Size(breakOffset.x, size.height),
+            )
+            drawRoundRect(
+                Brush.linearGradient(
+                    colors = gradient2,
+                    start = Offset.Zero,
+                    end = Offset.Infinite,
+                ),
+                topLeft = breakOffset,
+                size = Size(size.width - breakOffset.x, size.height),
+            )
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = ((1 - percentage) * maxNumber).toInt().toString(),
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
