@@ -23,13 +23,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,7 +57,53 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                Text(text = "hello world")
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Column (
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Button(onClick = { /*TODO*/ }) {
+                            Text(text = "Confirm")
+                        }
+
+                        ElevatedButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Add,
+                                contentDescription = "Add to cart",
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "Add to cart")
+                        }
+                        
+                        FilledTonalButton(onClick = { /*TODO*/ }) {
+                            Text(text = "Open in browser")
+                        }
+
+                        OutlinedButton(onClick = { /*TODO*/ }) {
+                            Text(text = "Back")
+                        }
+                        
+                        TextButton(onClick = { /*TODO*/ }) {
+                            Text(text = "Learn more")
+                        }
+                        
+                        Spacer(modifier = Modifier.height(18.dp))
+
+                        Row {
+                            Button(onClick = { /*TODO*/ }) {
+                                Text(text = "Create a new account")
+                            }
+                            OutlinedButton(onClick = { /*TODO*/ }) {
+                                Text(text = "I have an existing account")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
