@@ -75,81 +75,23 @@ fun MyCanvas() {
         modifier = Modifier
             .padding(20.dp)
             .size(300.dp),
+
     ) {
-        drawRect(
-            color = Color.Black,
-            size = size
-        )
-        drawRect(
-            color = Color.Red,
-            topLeft = Offset(100f, 100f),
-            size = Size(100f, 100f),
-            style = Stroke(
-                width = 10f,
-            )
-        )
-        drawCircle(
-            brush = Brush.radialGradient(
-                colors = listOf(Color.Yellow, Color.Red, Color.Black),
-                center = center - Offset(75f, 75f),
-                radius = 250f
-            ),
-            radius = 100f,
-            center = center
-        )
-
-        drawArc(
-            brush = Brush.radialGradient(
-                colors = listOf(Color.Yellow, Color.Red, Color.Black),
-                center = Offset(100f, 500f) + Offset(200f / 2, 200f / 2),
-                radius = 200f
-            ),
-            startAngle = 0f,
-            sweepAngle = 270f,
-            useCenter = true,
-            topLeft = Offset(100f, 500f),
-            size = Size(200f, 200f),
-        )
-        drawArc(
-            brush = Brush.radialGradient(
-                colors = listOf(Color.Cyan, Color.Blue, Color.Black),
-                center = Offset(100f, 500f) + Offset(200f / 2, 200f / 2),
-                radius = 200f
-            ),
-            startAngle = 270f,
-            sweepAngle = 90f,
-            useCenter = true,
-            topLeft = Offset(100f, 500f),
-            size = Size(200f, 200f),
-        )
-
-        drawArc(
-            brush = Brush.radialGradient(
-                colors = listOf(Color.Cyan, Color.Blue, Color.Black),
-                center = Offset(500f, 500f) + Offset(200f / 4, 200f / 4),
-                radius = 200f
-            ),
-            startAngle = 0f,
-            sweepAngle = 270f,
-            useCenter = false,
-            topLeft = Offset(500f, 500f),
-            size = Size(200f, 200f),
-            style = Stroke(
-                width = 5.dp.toPx(),
-            )
-        )
-
-        drawOval(
-            color = Color.Magenta,
-            topLeft = Offset(500f, 100f),
-            size = Size(200f, 300f),
-        )
+        val lineStart = Offset(0f, 0f)
+        val lineEnd = Offset(size.width, 0f)
+        val balanceValue: Float = 3.toFloat() / (3 + 5)
+        val progressBarSpace = Offset(1f, 0f)
+        val barWidth = 25.dp.toPx()
 
         drawLine(
-            color = Color.Cyan,
-            start = Offset(300f, 700f),
-            end = Offset(700f, 700f),
-            strokeWidth = 5.dp.toPx(),
+            brush = Brush.linearGradient(
+                colors = listOf(Color.Blue, Color.Red),
+                start = lineStart + (lineEnd - lineStart) * balanceValue - progressBarSpace,
+                end = lineStart + (lineEnd - lineStart) * balanceValue + progressBarSpace,
+            ),
+            start = lineStart,
+            end = lineEnd,
+            strokeWidth = barWidth,
         )
     }
 }
