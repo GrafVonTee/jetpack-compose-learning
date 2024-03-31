@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
 }
 
 android {
@@ -17,6 +18,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        kapt {
+            arguments {arg("room.schemaLocation", "$projectDir/schemas")}
         }
     }
 
@@ -77,4 +82,7 @@ dependencies {
     // For Wear-Tiles support
     implementation("androidx.glance:glance-wear-tiles:1.0.0-alpha05")
 
+    implementation("androidx.room:room-runtime:2.5.0") // Библиотека "Room"
+    kapt("androidx.room:room-compiler:2.5.0") // Кодогенератор
+    implementation("androidx.room:room-ktx:2.5.0") // Дополнительно для Kotlin Coroutines, Kotlin Flows
 }

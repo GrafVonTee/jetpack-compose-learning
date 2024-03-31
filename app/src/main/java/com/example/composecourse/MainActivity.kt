@@ -1,5 +1,6 @@
 package com.example.composecourse
 
+import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,11 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -31,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -43,10 +58,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeCourseTheme {
-                Surface (
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
+                val bottomBarItems = listOf(
+                    BottomNavigationItem(
+                        title = "Home",
+                        selectedIcon = Icons.Filled.Home,
+                        unselectedIcon = Icons.Outlined.Home,
+                        hasNews = false,
+                    ),
+                    BottomNavigationItem(
+                        title = "Graph",
+                        selectedIcon = Icons.Filled.Star,
+                        unselectedIcon = Icons.Outlined.Star,
+                        hasNews = false,
+                    ),
+                    BottomNavigationItem(
+                        title = "History",
+                        selectedIcon = Icons.Filled.DateRange,
+                        unselectedIcon = Icons.Outlined.DateRange,
+                        hasNews = false,
+                    ),
+                )
+
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(bottomBarItems)
+                    }
+                ) { item ->
+                    item
+
                     Column (
                         modifier = Modifier
                             .fillMaxSize()
@@ -81,7 +120,6 @@ class MainActivity : ComponentActivity() {
                         DropDownMenu(listOf("За день", "За неделю", "За месяц", "За всё время"))
                     }
                 }
-
             }
         }
     }
@@ -103,6 +141,58 @@ fun StatisticsByPeriod(
         fontSize = headerFontSize,
     )
     LinearProgressBar(percentage, maxNumber, width = 200.dp)
+}
+
+data class BottomNavigationItem(
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+    val hasNews: Boolean,
+    val badgeCount: Int? = null,
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomNavigationBar(items: List<BottomNavigationItem>) {
+    var selectedItemIndex by remember {
+        mutableStateOf(0)
+    }
+
+    NavigationBar {
+        items.forEachIndexed { index, item ->
+            NavigationBarItem(
+                selected = selectedItemIndex == index,
+                onClick = {
+                    selectedItemIndex = index
+                    // navController.navigate(item.title)
+                },
+                label = {
+                    Text(text = item.title)
+                },
+                icon = {
+                    BadgedBox(
+                        badge = {
+                            if (item.badgeCount != null) {
+                                Badge {
+                                    Text(text = item.badgeCount.toString())
+                                }
+                            } else if (item.hasNews) {
+                                Badge()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (index == selectedItemIndex) {
+                                item.selectedIcon
+                            } else item.unselectedIcon,
+                            contentDescription = item.title,
+                        )
+                    }
+                }
+            )
+
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
