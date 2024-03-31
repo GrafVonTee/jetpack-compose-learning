@@ -69,7 +69,7 @@ fun LinearProgressBar(
             modifier = Modifier
                 .size(width = width, height = height)
         ) {
-            val breakOffset: Offset = Offset(size.width * percentage, 0f)
+            val breakOffset = Offset(size.width * percentage, 0f)
 
             drawRect(
                 color = color1,

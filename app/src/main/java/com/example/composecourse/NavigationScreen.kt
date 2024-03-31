@@ -22,13 +22,13 @@ fun NavigationScreen() {
 
         NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
             composable(route = Screen.HomeScreen.route) {
-                HomeScreen()
+                HomeScreen(PeriodData.ZERO)
             }
             composable(route = Screen.GraphScreen.route) {
-                GraphScreen()
+                GraphScreen(PeriodData.ZERO)
             }
             composable(route = Screen.HistoryScreen.route) {
-                HistoryScreen()
+                HistoryScreen(PeriodData.ZERO)
             }
         }
     }

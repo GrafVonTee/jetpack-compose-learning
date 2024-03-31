@@ -17,12 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.composecourse.DateTimeManipulation
 import com.example.composecourse.PeriodData
-import com.example.composecourse.makeTeaRecord
-import com.example.composecourse.makeWaterRecord
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(periodData: PeriodData) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -30,27 +29,26 @@ fun HomeScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
-        var currentDayHistory by remember {
-            mutableStateOf(PeriodData.ZERO)
-        }
-
+        val todayData = periodData.getCopyStartingWithDate(DateTimeManipulation.getTodayStr())
         StatisticsBarChartByPeriod(
-            currentDayHistory,
+            todayData,
             text = "Статистика за день",
         )
 
+        val weekData = periodData.getCopyStartingWithDate(DateTimeManipulation.getPreviousWeekDate())
         StatisticsBarChartByPeriod(
-            PeriodData.ZERO,
+            weekData,
             text = "Статистика за неделю",
         )
 
+        val monthData = periodData.getCopyStartingWithDate(DateTimeManipulation.getPreviousMonthDate())
         StatisticsBarChartByPeriod(
-            PeriodData.ZERO,
+            monthData,
             text = "Статистика за месяц",
         )
 
         StatisticsBarChartByPeriod(
-            PeriodData.ZERO,
+            periodData,
             text = "Статистика за всё время",
         )
 
@@ -62,15 +60,15 @@ fun HomeScreen() {
         ) {
             CircleCupButton(
                 title = "Вода",
-                buttonText = currentDayHistory.getWaterCups().toString(),
+                buttonText = todayData.getWaterCups().toString(),
                 color = Color.Blue,
-                ::makeWaterRecord
+                periodData::addWaterRecord
             )
             CircleCupButton(
                 title = "Чай",
-                buttonText = currentDayHistory.getTeaCups().toString(),
+                buttonText = todayData.getTeaCups().toString(),
                 color = Color.Red,
-                ::makeTeaRecord
+                periodData::addTeaRecord
             )
         }
     }

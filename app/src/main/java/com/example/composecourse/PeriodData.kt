@@ -1,22 +1,41 @@
 package com.example.composecourse
 
-class PeriodData(
-    private var history: MutableList<Record>,
-    private var sum: Int,
-    private var teaCups: Int,
-    private var waterCups: Int,
-) {
-    fun constructor(records: List<Record>) {
-        history = records.toMutableList()
-        sum = 0
-        teaCups = 0
-        waterCups = 0
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 
-        records.forEach {record ->
-            teaCups += record.teaCups
-            waterCups += record.waterCups
+class PeriodData(records: List<Record>) {
+    private var history: MutableList<Record> = mutableListOf()
+    private var sum = 0
+    private var teaCups = 0
+    private var waterCups = 0
+
+    init {
+        addRecord(Record(
+            date = DateTimeManipulation.getBeginningDate(),
+            time = DateTimeManipulation.getBeginningTime(),
+            teaCups = 0,
+            waterCups = 0
+        ))
+        history.addAll(records)
+        recalculateCups()
+    }
+
+    private fun recalculateCups() {
+        if (history.size > 1) {
+            teaCups = history.last().teaCups - history.first().teaCups
+            waterCups = history.last().waterCups - history.first().waterCups
+            sum = teaCups + waterCups
+        } else if (history.size == 1) {
+            teaCups = history.last().teaCups
+            waterCups = history.last().waterCups
+            sum = teaCups + waterCups
+        } else {
+            teaCups = 0
+            sum = 0
+            waterCups = 0
         }
-        sum = teaCups + waterCups
     }
 
     fun getSum(): Int { return sum }
@@ -25,20 +44,75 @@ class PeriodData(
 
     fun getWaterCups(): Int { return waterCups }
 
-    companion object {
-        val ZERO: PeriodData = PeriodData(mutableListOf(), 0, 0, 0)
+    fun getHistory(byDate: String? = null): List<Record> {
+        return history.subList(1, history.size - 1).toList()
     }
 
-    fun addRecord(record: Record) {
+    fun getCopyEndingWithDate(dateStr: String? = null): PeriodData {
+        if (dateStr == null) return this
+
+        val date = DateTimeManipulation.getDateFromStr(dateStr)
+
+        var newHistory: MutableList<Record> = mutableListOf()
+        history.forEach { record ->
+            val recordDate = DateTimeManipulation.getDateFromStr(record.date)
+            if (recordDate <= date) {
+                newHistory.add(record)
+            }
+        }
+        return PeriodData(newHistory)
+    }
+
+    fun getCopyStartingWithDate(dateStr: String? = null): PeriodData {
+        if (dateStr == null) return this
+
+        val date = DateTimeManipulation.getDateFromStr(dateStr)
+
+        var newHistory: MutableList<Record> = mutableListOf()
+        history.forEach { record ->
+            val recordDate = DateTimeManipulation.getDateFromStr(record.date)
+            if (recordDate >= date) {
+                newHistory.add(record)
+            }
+        }
+        return PeriodData(newHistory)
+    }
+
+    private fun addRecord(record: Record) {
         history.add(record)
+        recalculateCups()
     }
 
     fun clearHistory() {
         history.clear()
+        recalculateCups()
     }
 
     fun removeLast() {
         history.removeLast()
+        recalculateCups()
+    }
+
+    fun addTeaRecord() {
+        addRecord(Record(
+            date = DateTimeManipulation.getTodayStr(),
+            time = DateTimeManipulation.getTodayTimeStr(),
+            teaCups = teaCups + 1,
+            waterCups = waterCups
+        ))
+    }
+
+    fun addWaterRecord() {
+        addRecord(Record(
+            date = DateTimeManipulation.getTodayStr(),
+            time = DateTimeManipulation.getTodayTimeStr(),
+            teaCups = teaCups,
+            waterCups = waterCups + 1
+        ))
+    }
+
+    companion object {
+        val ZERO: PeriodData = PeriodData(mutableListOf())
     }
 }
 
@@ -48,11 +122,3 @@ data class Record(
     val teaCups: Int,
     val waterCups: Int,
 )
-
-fun makeTeaRecord() {
-
-}
-
-fun makeWaterRecord() {
-
-}
