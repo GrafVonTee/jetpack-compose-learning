@@ -85,47 +85,56 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { item ->
                     item
-
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top,
-                    ) {
-                        StatisticsByPeriod(
-                            percentage = 0.3.toFloat(),
-                            maxNumber = 100,
-                            text = "Статистика за день",
-                        )
-
-                        StatisticsByPeriod(
-                            percentage = 0.6.toFloat(),
-                            maxNumber = 350,
-                            text = "Статистика за неделю",
-                        )
-
-                        StatisticsByPeriod(
-                            percentage = 0.1.toFloat(),
-                            maxNumber = 350,
-                            text = "Статистика за месяц",
-                        )
-
-                        StatisticsByPeriod(
-                            percentage = 0.5.toFloat(),
-                            maxNumber = 8888,
-                            text = "Статистика за всё время",
-                        )
-
-                        DropDownMenu(listOf("За день", "За неделю", "За месяц", "За всё время"))
-                    }
                 }
             }
         }
     }
 }
 
+@Composable
+fun HomeMenu() {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
+    ) {
+        StatisticsByPeriod(
+            percentage = 0.3.toFloat(),
+            maxNumber = 100,
+            text = "Статистика за день",
+        )
 
+        StatisticsByPeriod(
+            percentage = 0.6.toFloat(),
+            maxNumber = 350,
+            text = "Статистика за неделю",
+        )
+
+        StatisticsByPeriod(
+            percentage = 0.1.toFloat(),
+            maxNumber = 350,
+            text = "Статистика за месяц",
+        )
+
+        StatisticsByPeriod(
+            percentage = 0.5.toFloat(),
+            maxNumber = 8888,
+            text = "Статистика за всё время",
+        )
+    }
+}
+
+@Composable
+fun GraphMenu() {
+    DropDownMenu(listOf("За день", "За неделю", "За месяц", "За всё время"))
+}
+
+@Composable
+fun HistoryMenu() {
+
+}
 
 @Composable
 fun StatisticsByPeriod(
@@ -169,6 +178,7 @@ fun BottomNavigationBar(items: List<BottomNavigationItem>) {
                 label = {
                     Text(text = item.title)
                 },
+                alwaysShowLabel = false,
                 icon = {
                     BadgedBox(
                         badge = {
