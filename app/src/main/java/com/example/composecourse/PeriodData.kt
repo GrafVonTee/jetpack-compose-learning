@@ -6,19 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 
 class PeriodData(records: List<Record>) {
-    private var history: MutableList<Record> = mutableListOf()
+    private var history = records.toMutableList()
     private var sum = 0
     private var teaCups = 0
     private var waterCups = 0
 
     init {
-        addRecord(Record(
-            date = DateTimeManipulation.getBeginningDate(),
-            time = DateTimeManipulation.getBeginningTime(),
-            teaCups = 0,
-            waterCups = 0
-        ))
-        history.addAll(records)
         recalculateCups()
     }
 
@@ -112,7 +105,7 @@ class PeriodData(records: List<Record>) {
     }
 
     companion object {
-        val ZERO: PeriodData = PeriodData(mutableListOf())
+        val ZERO: PeriodData = PeriodData(mutableListOf(Record.ZERO))
     }
 }
 
@@ -121,4 +114,13 @@ data class Record(
     val time: String,
     val teaCups: Int,
     val waterCups: Int,
-)
+) {
+    companion object {
+        val ZERO: Record = Record(
+            date = DateTimeManipulation.getBeginningDate(),
+            time = DateTimeManipulation.getBeginningTime(),
+            teaCups = 0,
+            waterCups = 0
+        )
+    }
+}
