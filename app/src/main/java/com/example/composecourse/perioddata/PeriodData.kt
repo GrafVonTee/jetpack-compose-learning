@@ -139,33 +139,6 @@ class PeriodData(records: List<Record>) {
         )
     }
 
-    fun saveToInternalStorage(filename: String = defaultFileName): Boolean {
-        return try {
-            PrintWriter(filename).use {
-                it.write(Json.encodeToString(history))
-            }
-            true
-        } catch(e: IOException) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    fun loadFromInternalStorage(filename: String = defaultFileName): Boolean {
-        return try {
-            history = Json.decodeFromString<List<Record>>(
-                File(filename)
-                    .inputStream()
-                    .readBytes()
-                    .toString(Charsets.UTF_8)
-            ).toMutableList()
-            true
-        } catch(e: IOException) {
-            e.printStackTrace()
-            false
-        }
-    }
-
     companion object {
         val ZERO: PeriodData = PeriodData(mutableListOf(Record.ZERO))
         val ZERO_FROM_NOW: PeriodData = PeriodData(mutableListOf(Record.ZERO_FROM_NOW))
