@@ -13,9 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -54,6 +58,7 @@ fun LinearProgressBar(
     height: Dp = 40.dp,
     color1: Color = Color.Blue,
     color2: Color = Color.Red,
+    cornerRadius: CornerRadius = CornerRadius(50f, 50f)
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -77,15 +82,35 @@ fun LinearProgressBar(
         ) {
             val breakOffset = Offset(size.width * percentage, 0f)
 
-            drawRect(
+            drawPath(
+                path = Path().apply {
+                    addRoundRect(
+                        RoundRect(
+                            rect = Rect(
+                                offset = Offset.Zero,
+                                size = Size(breakOffset.x, size.height),
+                            ),
+                            topLeft = cornerRadius,
+                            bottomLeft = cornerRadius,
+                        )
+                    )
+                },
                 color = color1,
-                topLeft = Offset.Zero,
-                size = Size(breakOffset.x, size.height),
             )
-            drawRect(
+            drawPath(
+                path = Path().apply {
+                    addRoundRect(
+                        RoundRect(
+                            rect = Rect(
+                                offset = breakOffset,
+                                size = Size(size.width - breakOffset.x, size.height),
+                            ),
+                            topRight = cornerRadius,
+                            bottomRight = cornerRadius,
+                        )
+                    )
+                },
                 color = color2,
-                topLeft = breakOffset,
-                size = Size(size.width - breakOffset.x, size.height),
             )
         }
 

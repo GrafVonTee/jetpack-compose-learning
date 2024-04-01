@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 android {
@@ -90,4 +91,6 @@ dependencies {
     // lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
+    // JSON serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }

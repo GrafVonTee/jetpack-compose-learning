@@ -1,10 +1,12 @@
 package com.example.composecourse.perioddata
 
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composecourse.perioddata.PeriodData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PeriodDataViewModel(periodData: PeriodData): ViewModel() {
@@ -14,20 +16,23 @@ class PeriodDataViewModel(periodData: PeriodData): ViewModel() {
     val data = _data.asStateFlow()
 
     fun addTeaRecord() {
-        viewModelScope.launch {
-            _data.value.addTeaRecord()
+        _data.value.addTeaRecord()
+        _data.update {
+            it.getCopyEndingWithDate()
         }
     }
 
     fun addWaterRecord() {
-        viewModelScope.launch {
-            _data.value.addWaterRecord()
+        _data.value.addWaterRecord()
+        _data.update {
+            it.getCopyEndingWithDate()
         }
     }
 
     fun clearHistory() {
-        viewModelScope.launch {
-            _data.value.clearHistory()
+        _data.value.clearHistory()
+        _data.update {
+            it.getCopyEndingWithDate()
         }
     }
 }
