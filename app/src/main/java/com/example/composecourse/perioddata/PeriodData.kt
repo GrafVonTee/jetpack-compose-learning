@@ -1,4 +1,6 @@
-package com.example.composecourse
+package com.example.composecourse.perioddata
+
+import com.example.composecourse.DateTimeManipulation
 
 class PeriodData(records: List<Record>) {
     private var history = records.toMutableList()
@@ -105,21 +107,25 @@ class PeriodData(records: List<Record>) {
     }
 
     fun addTeaRecord() {
-        addRecord(Record(
+        addRecord(
+            Record(
             date = DateTimeManipulation.getTodayStr(),
             time = DateTimeManipulation.getTodayTimeStr(),
             teaCups = teaCups + 1,
             waterCups = waterCups
-        ))
+        )
+        )
     }
 
     fun addWaterRecord() {
-        addRecord(Record(
+        addRecord(
+            Record(
             date = DateTimeManipulation.getTodayStr(),
             time = DateTimeManipulation.getTodayTimeStr(),
             teaCups = teaCups,
             waterCups = waterCups + 1
-        ))
+        )
+        )
     }
 
     companion object {

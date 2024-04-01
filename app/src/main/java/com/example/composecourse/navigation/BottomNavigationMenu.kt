@@ -1,4 +1,4 @@
-package com.example.composecourse
+package com.example.composecourse.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -21,12 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.composecourse.graphmenu.GraphScreen
-import com.example.composecourse.historymenu.HistoryScreen
-import com.example.composecourse.homemenu.HomeScreen
+import com.example.composecourse.Screen
 
 data class BottomNavigationItem(
     val title: String,

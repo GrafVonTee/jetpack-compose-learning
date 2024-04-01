@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.composecourse.navigation.NavigationScreen
+import com.example.composecourse.perioddata.PeriodData
+import com.example.composecourse.perioddata.PeriodDataViewModel
 import com.example.composecourse.ui.theme.ComposeCourseTheme
 
 class MainActivity : ComponentActivity() {
