@@ -91,6 +91,7 @@ dependencies {
     // lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
-    // JSON serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("androidx.room:room-runtime:2.5.0") // Библиотека "Room"
+    kapt("androidx.room:room-compiler:2.5.0") // Кодогенератор
+    implementation("androidx.room:room-ktx:2.5.0") // Дополнительно для Kotlin Coroutines, Kotlin Flows
 }
