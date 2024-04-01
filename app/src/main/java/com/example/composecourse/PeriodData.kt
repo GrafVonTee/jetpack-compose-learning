@@ -1,10 +1,5 @@
 package com.example.composecourse
 
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-
 class PeriodData(records: List<Record>) {
     private var history = records.toMutableList()
     private var sum = 0
@@ -16,11 +11,7 @@ class PeriodData(records: List<Record>) {
     }
 
     private fun recalculateCups() {
-        if (history.size > 1) {
-            teaCups = history.last().teaCups - history.first().teaCups
-            waterCups = history.last().waterCups - history.first().waterCups
-            sum = teaCups + waterCups
-        } else if (history.size == 1) {
+        if (history.size > 0) {
             teaCups = history.last().teaCups
             waterCups = history.last().waterCups
             sum = teaCups + waterCups
@@ -31,14 +22,24 @@ class PeriodData(records: List<Record>) {
         }
     }
 
-    fun getSum(): Int { return sum }
+    fun getSum(): Int {
+        return getTeaCups() + getWaterCups()
+    }
 
-    fun getTeaCups(): Int { return teaCups }
+    fun getTeaCups(): Int {
+        return if (history.size > 0) {
+            history.last().teaCups - history.first().teaCups
+        } else 0
+    }
 
-    fun getWaterCups(): Int { return waterCups }
+    fun getWaterCups(): Int {
+        return if (history.size > 0) {
+            history.last().waterCups - history.first().waterCups
+        } else 0
+    }
 
-    fun getHistory(byDate: String? = null): List<Record> {
-        return history.subList(1, history.size - 1).toList()
+    fun getHistory(): List<Record> {
+        return history.toList()
     }
 
     fun getCopyEndingWithDate(dateStr: String? = null): PeriodData {
@@ -46,8 +47,8 @@ class PeriodData(records: List<Record>) {
 
         val date = DateTimeManipulation.getDateFromStr(dateStr)
 
-        var newHistory: MutableList<Record> = mutableListOf()
-        history.forEach { record ->
+        val newHistory: MutableList<Record> = mutableListOf()
+        for (record in history) {
             val recordDate = DateTimeManipulation.getDateFromStr(record.date)
             if (recordDate <= date) {
                 newHistory.add(record)
@@ -61,14 +62,30 @@ class PeriodData(records: List<Record>) {
 
         val date = DateTimeManipulation.getDateFromStr(dateStr)
 
-        var newHistory: MutableList<Record> = mutableListOf()
-        history.forEach { record ->
+        val newHistory: MutableList<Record> = mutableListOf()
+        for (record in history) {
             val recordDate = DateTimeManipulation.getDateFromStr(record.date)
             if (recordDate >= date) {
                 newHistory.add(record)
             }
         }
         return PeriodData(newHistory)
+    }
+
+    fun getToday(): PeriodData {
+        return getCopyStartingWithDate(DateTimeManipulation.getTodayStr())
+    }
+
+    fun getCurrentWeek(): PeriodData {
+        return getCopyStartingWithDate(DateTimeManipulation.getPreviousWeekDate())
+    }
+
+    fun getCurrentMonth(): PeriodData {
+        return getCopyStartingWithDate(DateTimeManipulation.getPreviousMonthDate())
+    }
+
+    fun getWholeData(): PeriodData {
+        return getCopyStartingWithDate()
     }
 
     private fun addRecord(record: Record) {
@@ -78,6 +95,7 @@ class PeriodData(records: List<Record>) {
 
     fun clearHistory() {
         history.clear()
+        addRecord(Record.ZERO_FROM_NOW)
         recalculateCups()
     }
 
@@ -106,6 +124,7 @@ class PeriodData(records: List<Record>) {
 
     companion object {
         val ZERO: PeriodData = PeriodData(mutableListOf(Record.ZERO))
+        val ZERO_FROM_NOW: PeriodData = PeriodData(mutableListOf(Record.ZERO_FROM_NOW))
     }
 }
 
@@ -119,6 +138,12 @@ data class Record(
         val ZERO: Record = Record(
             date = DateTimeManipulation.getBeginningDate(),
             time = DateTimeManipulation.getBeginningTime(),
+            teaCups = 0,
+            waterCups = 0
+        )
+        val ZERO_FROM_NOW: Record = Record(
+            date = DateTimeManipulation.getTodayStr(),
+            time = DateTimeManipulation.getTodayTimeStr(),
             teaCups = 0,
             waterCups = 0
         )

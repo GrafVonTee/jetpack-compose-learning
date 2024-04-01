@@ -14,14 +14,17 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.composecourse.PeriodData
+import com.example.composecourse.PeriodDataViewModel
 
 @Composable
-fun HistoryScreen(periodData: PeriodData) {
+fun HistoryScreen(viewModel: PeriodDataViewModel) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -29,8 +32,10 @@ fun HistoryScreen(periodData: PeriodData) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
+        val data by viewModel.data.collectAsState()
+
         Button(
-            onClick = periodData::clearHistory,
+            onClick = viewModel::clearHistory,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
@@ -43,7 +48,7 @@ fun HistoryScreen(periodData: PeriodData) {
         LazyColumn (
             modifier = Modifier.fillMaxSize()
         ) {
-            items(periodData.getHistory()) { record ->
+            items(data.getHistory()) { record ->
                 Text(
                     text = "${record.date} at ${record.time}\n"
                             + "TeaCups: ${record.teaCups}, WaterCups: ${record.waterCups}",

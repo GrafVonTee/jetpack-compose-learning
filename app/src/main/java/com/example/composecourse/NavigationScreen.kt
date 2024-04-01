@@ -10,7 +10,7 @@ import com.example.composecourse.historymenu.HistoryScreen
 import com.example.composecourse.homemenu.HomeScreen
 
 @Composable
-fun NavigationScreen() {
+fun NavigationScreen(viewModel: PeriodDataViewModel) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -22,13 +22,13 @@ fun NavigationScreen() {
 
         NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
             composable(route = Screen.HomeScreen.route) {
-                HomeScreen(PeriodData.ZERO)
+                HomeScreen(viewModel)
             }
             composable(route = Screen.GraphScreen.route) {
-                GraphScreen(PeriodData.ZERO)
+                GraphScreen(viewModel)
             }
             composable(route = Screen.HistoryScreen.route) {
-                HistoryScreen(PeriodData.ZERO)
+                HistoryScreen(viewModel)
             }
         }
     }

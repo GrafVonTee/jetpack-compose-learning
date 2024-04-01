@@ -85,7 +85,7 @@ fun BottomNavigationBar(navController: NavController, items: List<BottomNavigati
                 label = {
                     Text(text = item.title)
                 },
-                alwaysShowLabel = false,
+//                alwaysShowLabel = false,
                 icon = {
                     BadgedBox(
                         badge = {

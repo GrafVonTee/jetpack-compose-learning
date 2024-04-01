@@ -36,13 +36,19 @@ fun StatisticsBarChartByPeriod(
         color = MaterialTheme.colorScheme.primary,
         fontSize = headerFontSize,
     )
-    LinearProgressBar(percentage, periodData.getSum(), width = 200.dp)
+    LinearProgressBar(
+        percentage = percentage,
+        teaNumber = periodData.getTeaCups(),
+        waterNumber = periodData.getWaterCups(),
+        width = 200.dp
+    )
 }
 
 @Composable
 fun LinearProgressBar(
     percentage: Float,
-    maxNumber: Int,
+    teaNumber: Int,
+    waterNumber: Int,
     fontSize: TextUnit = 24.sp,
     width: Dp = 100.dp,
     height: Dp = 40.dp,
@@ -57,7 +63,7 @@ fun LinearProgressBar(
             .padding(8.dp),
     ) {
         Text(
-            text = (percentage * maxNumber).toInt().toString(),
+            text = waterNumber.toString(),
             color = MaterialTheme.colorScheme.primary,
             fontSize = fontSize,
             fontWeight = FontWeight.Bold,
@@ -86,7 +92,7 @@ fun LinearProgressBar(
         Spacer(modifier = Modifier.width(8.dp))
 
         Text(
-            text = ((1 - percentage) * maxNumber).toInt().toString(),
+            text = teaNumber.toString(),
             color = MaterialTheme.colorScheme.primary,
             fontSize = fontSize,
             fontWeight = FontWeight.Bold,

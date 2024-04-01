@@ -10,7 +10,7 @@ object DateTimeManipulation {
     private val timeFormatter: DateTimeFormatter =  DateTimeFormatter.ofPattern("HH:mm")
 
     fun getBeginningDate(): String {
-        return LocalDate.MIN.format(dateFormatter)
+        return "01.01.0001"
     }
 
     fun getBeginningTime(): String {
