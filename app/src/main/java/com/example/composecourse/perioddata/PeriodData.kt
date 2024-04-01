@@ -1,11 +1,8 @@
 package com.example.composecourse.perioddata
 
 import android.content.Context.MODE_PRIVATE
+import androidx.room.Entity
 import com.example.composecourse.DateTimeManipulation
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.internal.readJson
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -145,7 +142,7 @@ class PeriodData(records: List<Record>) {
     }
 }
 
-@Serializable
+@Entity
 data class Record(
     val date: String,
     val time: String,
