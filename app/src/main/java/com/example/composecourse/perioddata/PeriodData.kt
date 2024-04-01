@@ -120,22 +120,22 @@ class PeriodData(records: List<Record>) {
     fun addTeaRecord() {
         addRecord(
             Record(
-            date = DateTimeManipulation.getTodayStr(),
-            time = DateTimeManipulation.getTodayTimeStr(),
-            teaCups = teaCups + 1,
-            waterCups = waterCups
-        )
+                date = DateTimeManipulation.getTodayStr(),
+                time = DateTimeManipulation.getTodayTimeStr(),
+                teaCups = teaCups + 1,
+                waterCups = waterCups
+            )
         )
     }
 
     fun addWaterRecord() {
         addRecord(
             Record(
-            date = DateTimeManipulation.getTodayStr(),
-            time = DateTimeManipulation.getTodayTimeStr(),
-            teaCups = teaCups,
-            waterCups = waterCups + 1
-        )
+                date = DateTimeManipulation.getTodayStr(),
+                time = DateTimeManipulation.getTodayTimeStr(),
+                teaCups = teaCups,
+                waterCups = waterCups + 1
+            )
         )
     }
 
