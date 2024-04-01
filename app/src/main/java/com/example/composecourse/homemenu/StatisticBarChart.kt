@@ -25,15 +25,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composecourse.perioddata.PeriodData
+import com.example.composecourse.roomtable.RecordState
 
 @Composable
 fun StatisticsBarChartByPeriod(
-    periodData: PeriodData,
+    recordState: RecordState,
     text: String,
 ) {
     val headerFontSize: TextUnit = 18.sp
-    val percentage: Float = periodData.getWaterCups().toFloat() / periodData.getSum()
+    val percentage: Float = recordState.getWaterCups().toFloat() / recordState.getSum()
 
     Text(
         text = text,
@@ -42,8 +42,8 @@ fun StatisticsBarChartByPeriod(
     )
     LinearProgressBar(
         percentage = percentage,
-        teaNumber = periodData.getTeaCups(),
-        waterNumber = periodData.getWaterCups(),
+        teaNumber = recordState.getTeaCups(),
+        waterNumber = recordState.getWaterCups(),
         width = 200.dp
     )
 }

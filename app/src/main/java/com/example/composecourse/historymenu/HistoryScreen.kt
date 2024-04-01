@@ -14,26 +14,23 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.composecourse.perioddata.PeriodDataViewModel
+import com.example.composecourse.roomtable.RecordEvent
+import com.example.composecourse.roomtable.RecordState
 
 @Composable
-fun HistoryScreen(viewModel: PeriodDataViewModel) {
-    Column (
+fun HistoryScreen(state: RecordState, onEvent: (RecordEvent) -> Unit) {
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
-        val data by viewModel.data.collectAsState()
-
         Button(
-            onClick = viewModel::clearHistory,
+            onClick = { onEvent(RecordEvent.ClearHistory) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
@@ -43,10 +40,11 @@ fun HistoryScreen(viewModel: PeriodDataViewModel) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        LazyColumn (
-            modifier = Modifier.fillMaxSize()
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = true,
         ) {
-            items(data.getHistory()) { record ->
+            items(state.getHistory()) { record ->
                 Text(
                     text = "${record.date} at ${record.time}\n"
                             + "TeaCups: ${record.teaCups}, WaterCups: ${record.waterCups}",
